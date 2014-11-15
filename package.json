@@ -1,0 +1,27 @@
+{
+  "name": "hapi-node-postgres",
+  "version": "1.0.1",
+  "description": "Wrap requests with a pg connection.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/jedireza/hapi-node-postgres"
+  },
+  "keywords": [
+    "hapi",
+    "pg",
+    "postgres"
+  ],
+  "author": "Reza Akhavan <jedireza@gmail.com> (http://reza.akhavan.me/)",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/jedireza/hapi-node-postgres/issues"
+  },
+  "homepage": "https://github.com/jedireza/hapi-node-postgres",
+  "dependencies": {
+    "pg": "^3.6.3"
+  }
+}
