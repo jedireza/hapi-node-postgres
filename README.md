@@ -16,7 +16,7 @@ handy when an error occurs.
 
 ## Install
 
-```js
+```bash
 $ npm install hapi-node-postgres
 ```
 
