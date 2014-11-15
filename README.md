@@ -39,7 +39,7 @@ server.pack.require('hapi-node-postgres', config, function (err) {
 });
 ```
 
-Or include it in your server manifest.
+Or include it in your composer manifest.
 
 ```js
 ...
