@@ -2,6 +2,10 @@
 
 Wrap requests with a Postgres connection.
 
+[![Dependency Status](https://david-dm.org/jedireza/hapi-node-postgres.svg)](https://david-dm.org/jedireza/hapi-node-postgres)
+[![devDependency Status](https://david-dm.org/jedireza/hapi-node-postgres/dev-status.svg?theme=shields.io)](https://david-dm.org/jedireza/hapi-node-postgres#info=devDependencies)
+[![Build Status](https://travis-ci.org/jedireza/hapi-node-postgres.svg?branch=master)](https://travis-ci.org/jedireza/hapi-node-postgres)
+
 We use the [`pg`](https://github.com/brianc/node-postgres) (`node-postgres`)
 module and take advantage of it's connection pooling feature.
 
