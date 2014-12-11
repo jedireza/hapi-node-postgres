@@ -22,13 +22,14 @@
     "url": "https://github.com/jedireza/hapi-node-postgres/issues"
   },
   "homepage": "https://github.com/jedireza/hapi-node-postgres",
-  "peerDependencies": {
-    "pg": "^3.6.3"
-  },
   "devDependencies": {
     "code": "^1.2.1",
     "hapi": "^8.0.0",
     "lab": "^5.1.0",
     "proxyquire": "^1.1.0"
+  },
+  "peerDependencies": {
+    "pg": "^4.1.0",
+    "pg-native": "^1.7.1"
   }
 }
