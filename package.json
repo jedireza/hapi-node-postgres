@@ -31,5 +31,9 @@
   "peerDependencies": {
     "pg": "^4.1.0",
     "pg-native": "^1.7.1"
+  },
+  "devDependencies": {
+    "pg": "^4.1.0",
+    "pg-native": "^1.7.1"
   }
 }
