@@ -4,7 +4,8 @@
   "description": "Wrap requests with a pg connection.",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "./node_modules/lab/bin/lab -c",
+    "test-cover": "./node_modules/lab/bin/lab -c -r html -o ./test/artifacts/coverage.html && open ./test/artifacts/coverage.html"
   },
   "repository": {
     "type": "git",
@@ -21,7 +22,16 @@
     "url": "https://github.com/jedireza/hapi-node-postgres/issues"
   },
   "homepage": "https://github.com/jedireza/hapi-node-postgres",
-  "dependencies": {
-    "pg": "^3.6.3"
+  "devDependencies": {
+    "code": "^1.2.1",
+    "hapi": "^8.0.0",
+    "lab": "^5.1.0",
+    "pg": "^4.1.0",
+    "pg-native": "^1.7.1",
+    "proxyquire": "^1.1.0"
+  },
+  "peerDependencies": {
+    "pg": "^4.1.0",
+    "pg-native": "^1.7.1"
   }
 }

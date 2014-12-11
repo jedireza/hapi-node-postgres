@@ -1,14 +1,15 @@
 var pg = require('pg');
 
 
-exports.register = function (plugin, options, next) {
+exports.register = function (server, options, next) {
 
-    plugin.ext('onPreHandler', function (request, extNext) {
+    server.ext('onPreHandler', function (request, reply) {
 
         pg.connect(options.connectionString, function (err, client, done) {
 
             if (err) {
-                next(err);
+                reply(err);
+                return;
             }
 
             request.pg = {
@@ -17,16 +18,18 @@ exports.register = function (plugin, options, next) {
                 kill: false
             };
 
-            extNext();
+            reply.continue();
         });
     });
 
-    plugin.events.on('tail', function (request, err) {
+
+    server.on('tail', function (request, err) {
 
         if (request.pg) {
             request.pg.done(request.pg.kill);
         }
     });
+
 
     next();
 };

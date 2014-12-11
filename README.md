@@ -1,17 +1,16 @@
 # hapi-node-postgres
 
-Wrap requests with a pg connection.
+Wrap requests with a Postgres connection.
 
-We use the [`node-postgres`](https://github.com/brianc/node-postgres)
+[![Dependency Status](https://david-dm.org/jedireza/hapi-node-postgres.svg)](https://david-dm.org/jedireza/hapi-node-postgres)
+[![devDependency Status](https://david-dm.org/jedireza/hapi-node-postgres/dev-status.svg?theme=shields.io)](https://david-dm.org/jedireza/hapi-node-postgres#info=devDependencies)
+[![Build Status](https://travis-ci.org/jedireza/hapi-node-postgres.svg?branch=master)](https://travis-ci.org/jedireza/hapi-node-postgres)
+
+We use the [`pg`](https://github.com/brianc/node-postgres) (`node-postgres`)
 module and take advantage of it's connection pooling feature.
 
-You'll have access to `request.pg.client` in your request handlers which you
-can use to make db requests. We even clean up the connection for you after the
-request.
-
-During your request handler you can set `request.pg.kill` to `true` and we'll
-remove the client from the pool so resources are reclaimed properly. This is
-handy when an error occurs.
+Note: Your project should have it's own `pg` and `pg-native` dependencies
+installed.  We depend on `pg` and `pg-native` via `peerDependencies`.
 
 
 ## Install
@@ -23,32 +22,41 @@ $ npm install hapi-node-postgres
 
 ## Usage
 
-Register the plugin manually.
+In your request handlers you'll have access to `request.pg.client` which you
+can use to make db requests. We even clean up the connection for you after the
+request.
+
+During your request handler you can set `request.pg.kill` to `true` and we'll
+remove the client from the pool so resources are reclaimed properly. This is
+usually done when an error occurs.
+
+
+#### Register the plugin manually.
 
 ```js
-var config = {
-    connectionString: 'postgres://username:password@localhost/database'
-};
-
-server.pack.require('hapi-node-postgres', config, function (err) {
-
-    if (err) {
-        console.error(err);
-        throw err;
-    }
-});
-```
-
-Or include it in your composer manifest.
-
-```js
-...
-plugins: {
-    'hapi-node-postgres': {
+var plugin = {
+    register: require('hapi-node-postgres'),
+    options: {
         connectionString: 'postgres://username:password@localhost/database'
     }
-},
-...
+};
+
+server.register(plugin, function (err) {
+
+     if (err) {
+         console.log('Failed loading plugin');
+     }
+ });
+```
+
+#### Or include it in your composer manifest.
+
+```json
+"plugins": {
+    "hapi-node-postgres": {
+        "connectionString": "postgres://username:password@localhost/database"
+    }
+}
 ```
 
 
@@ -59,4 +67,4 @@ MIT
 
 ## Don't forget
 
-What you make with `hapi-node-postgres` is more important than `hapi-node-postgres`.
+What you create with `hapi-node-postgres` is more important than `hapi-node-postgres`.
