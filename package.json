@@ -21,7 +21,7 @@
     "url": "https://github.com/jedireza/hapi-node-postgres/issues"
   },
   "homepage": "https://github.com/jedireza/hapi-node-postgres",
-  "dependencies": {
+  "peerDependencies": {
     "pg": "^3.6.3"
   }
 }
