@@ -11,7 +11,7 @@ var Plugin = Proxyquire('../', {
     'pg': stub.pg
 });
 var lab = exports.lab = Lab.script();
-var server, request;
+var request, server;
 
 
 lab.beforeEach(function (done) {
