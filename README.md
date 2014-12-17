@@ -9,8 +9,8 @@ Wrap requests with a Postgres connection.
 We use the [`pg`](https://github.com/brianc/node-postgres) (`node-postgres`)
 module and take advantage of it's connection pooling feature.
 
-Note: Your project should have it's own `pg` and `pg-native` dependencies
-installed.  We depend on `pg` and `pg-native` via `peerDependencies`.
+Note: Your project should have it's own `pg` dependencies
+installed.  We depend on `pg` via `peerDependencies`.
 
 
 ## Install
