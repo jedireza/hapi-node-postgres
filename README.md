@@ -7,9 +7,9 @@ Wrap requests with a Postgres connection.
 [![Build Status](https://travis-ci.org/jedireza/hapi-node-postgres.svg?branch=master)](https://travis-ci.org/jedireza/hapi-node-postgres)
 
 We use the [`pg`](https://github.com/brianc/node-postgres) (`node-postgres`)
-module and take advantage of it's connection pooling feature.
+module and take advantage of its connection pooling feature.
 
-Note: Your project should have it's own `pg` and `pg-native` dependencies
+Note: Your project should have its own `pg` and `pg-native` dependencies
 installed.  We depend on `pg` and `pg-native` via `peerDependencies`.
 
 
@@ -23,10 +23,10 @@ $ npm install hapi-node-postgres
 ## Usage
 
 In your request handlers you'll have access to `request.pg.client` which you
-can use to make db requests. We even clean up the connection for you after the
+can use to make DB requests. We even clean up the connection for you after the
 request.
 
-During your request handler you can set `request.pg.kill` to `true` and we'll
+During your request handler you can set `request.pg.kill` to `true`, and we'll
 remove the client from the pool so resources are reclaimed properly. This is
 usually done when an error occurs.
 
@@ -43,9 +43,9 @@ var plugin = {
 
 server.register(plugin, function (err) {
 
-     if (err) {
-         console.log('Failed loading plugin');
-     }
+    if (err) {
+        console.error('Failed loading "hapi-node-postgres" plugin');
+    }
  });
 ```
 
