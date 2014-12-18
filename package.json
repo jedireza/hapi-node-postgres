@@ -27,11 +27,9 @@
     "hapi": "^8.0.0",
     "lab": "^5.1.0",
     "pg": "^4.1.0",
-    "pg-native": "^1.7.1",
     "proxyquire": "^1.1.0"
   },
   "peerDependencies": {
-    "pg": "^4.1.0",
-    "pg-native": "^1.7.1"
+    "pg": "^4.1.0"
   }
 }
