@@ -3,7 +3,7 @@ var pg = require('pg');
 
 exports.register = function (server, options, next) {
 
-    server.ext('onPreHandler', function (request, reply) {
+    server.ext('onPreAuth', function (request, reply) {
 
         pg.connect(options.connectionString, function (err, client, done) {
 
