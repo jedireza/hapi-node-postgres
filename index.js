@@ -1,11 +1,21 @@
-var pg = require('pg');
+var Hoek = require('hoek');
+var Pg = require('pg');
+
+
+var DEFAULTS = {
+    connectionString: undefined,
+    attach: 'onPreHandler',
+    detach: 'tail'
+};
 
 
 exports.register = function (server, options, next) {
 
-    server.ext('onPreHandler', function (request, reply) {
+    var config = Hoek.applyToDefaults(DEFAULTS, options);
 
-        pg.connect(options.connectionString, function (err, client, done) {
+    server.ext(config.attach, function (request, reply) {
+
+        Pg.connect(config.connectionString, function (err, client, done) {
 
             if (err) {
                 reply(err);
@@ -23,7 +33,7 @@ exports.register = function (server, options, next) {
     });
 
 
-    server.on('tail', function (request, err) {
+    server.on(config.detach, function (request, err) {
 
         if (request.pg) {
             request.pg.done(request.pg.kill);

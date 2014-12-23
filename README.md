@@ -59,6 +59,18 @@ server.register(plugin, function (err) {
 }
 ```
 
+The options passed to the plugin is an object where:
+
+ - `connectionString` - a string representing the connection details for
+    Postgres.
+ - `attach` - a string representing the extension point event where the
+    request is decorated with the `pg` attribute. Defaults to `onPreHandler`.
+ - `detach` - a string representing the server event where the connection is
+    cleaned up. Defaults to `tail`.
+
+[See the hapijs docs to learn more about request lifecycle
+events.](http://hapijs.com/api/#request-lifecycle)
+
 
 ## License
 
