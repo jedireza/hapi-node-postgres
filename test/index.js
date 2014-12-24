@@ -129,4 +129,36 @@ lab.experiment('Postgres Plugin', function () {
             stub.pg.connect = realConnect;
         });
     });
+
+
+    lab.test('it successfully uses native bindings without error', function (done) {
+
+        var realConnect = stub.pg.connect;
+        stub.pg.connect = function (connection, callback) {
+
+            var returnClient = function () {};
+
+            callback(null, {}, returnClient);
+        };
+
+        var pluginWithConfig = {
+            register: Plugin,
+            options: {
+                native: true
+            }
+        };
+
+        server.register(pluginWithConfig, function (err) {
+
+            Code.expect(err).to.not.exist();
+        });
+
+        server.inject(request, function (response) {
+
+            Code.expect(response.statusCode).to.equal(200);
+            stub.pg.connect = realConnect;
+
+            done();
+        });
+    });
 });
