@@ -63,14 +63,14 @@ lab.experiment('Postgres Plugin', function () {
         server.register(Plugin, function (err) {
 
             Code.expect(err).to.not.exist();
-        });
 
-        server.inject(request, function (response) {
+            server.inject(request, function (response) {
 
-            Code.expect(response.statusCode).to.equal(500);
-            stub.pg.connect = realConnect;
+                Code.expect(response.statusCode).to.equal(500);
+                stub.pg.connect = realConnect;
 
-            done();
+                done();
+            });
         });
     });
 
@@ -88,14 +88,14 @@ lab.experiment('Postgres Plugin', function () {
         server.register(Plugin, function (err) {
 
             Code.expect(err).to.not.exist();
-        });
 
-        server.inject(request, function (response) {
+            server.inject(request, function (response) {
 
-            Code.expect(response.statusCode).to.equal(200);
-            stub.pg.connect = realConnect;
+                Code.expect(response.statusCode).to.equal(200);
+                stub.pg.connect = realConnect;
 
-            done();
+                done();
+            });
         });
     });
 
@@ -119,14 +119,14 @@ lab.experiment('Postgres Plugin', function () {
         server.register(Plugin, function (err) {
 
             Code.expect(err).to.not.exist();
-        });
 
-        request.url = '/?kill=true';
+            request.url = '/?kill=true';
 
-        server.inject(request, function (response) {
+            server.inject(request, function (response) {
 
-            Code.expect(response.statusCode).to.equal(200);
-            stub.pg.connect = realConnect;
+                Code.expect(response.statusCode).to.equal(200);
+                stub.pg.connect = realConnect;
+            });
         });
     });
 
@@ -151,14 +151,14 @@ lab.experiment('Postgres Plugin', function () {
         server.register(pluginWithConfig, function (err) {
 
             Code.expect(err).to.not.exist();
-        });
 
-        server.inject(request, function (response) {
+            server.inject(request, function (response) {
 
-            Code.expect(response.statusCode).to.equal(200);
-            stub.pg.connect = realConnect;
+                Code.expect(response.statusCode).to.equal(200);
+                stub.pg.connect = realConnect;
 
-            done();
+                done();
+            });
         });
     });
 });
