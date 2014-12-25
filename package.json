@@ -33,5 +33,8 @@
   "peerDependencies": {
     "pg": "^4.1.0",
     "pg-native": "^1.7.1"
+  },
+  "dependencies": {
+    "hoek": "^2.10.0"
   }
 }
