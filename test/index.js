@@ -52,7 +52,7 @@ lab.experiment('Postgres Plugin', function () {
     });
 
 
-    lab.test('it returns an error when the connection fails in the pre handler extension point', function (done) {
+    lab.test('it returns an error when the connection fails in the extension point', function (done) {
 
         var realConnect = stub.pg.connect;
         stub.pg.connect = function (connection, callback) {
@@ -63,19 +63,19 @@ lab.experiment('Postgres Plugin', function () {
         server.register(Plugin, function (err) {
 
             Code.expect(err).to.not.exist();
-        });
 
-        server.inject(request, function (response) {
+            server.inject(request, function (response) {
 
-            Code.expect(response.statusCode).to.equal(500);
-            stub.pg.connect = realConnect;
+                Code.expect(response.statusCode).to.equal(500);
+                stub.pg.connect = realConnect;
 
-            done();
+                done();
+            });
         });
     });
 
 
-    lab.test('it successfully returns when the connection succeeds in the pre handler extension point', function (done) {
+    lab.test('it successfully returns when the connection succeeds in extension point', function (done) {
 
         var realConnect = stub.pg.connect;
         stub.pg.connect = function (connection, callback) {
@@ -88,14 +88,14 @@ lab.experiment('Postgres Plugin', function () {
         server.register(Plugin, function (err) {
 
             Code.expect(err).to.not.exist();
-        });
 
-        server.inject(request, function (response) {
+            server.inject(request, function (response) {
 
-            Code.expect(response.statusCode).to.equal(200);
-            stub.pg.connect = realConnect;
+                Code.expect(response.statusCode).to.equal(200);
+                stub.pg.connect = realConnect;
 
-            done();
+                done();
+            });
         });
     });
 
@@ -119,14 +119,36 @@ lab.experiment('Postgres Plugin', function () {
         server.register(Plugin, function (err) {
 
             Code.expect(err).to.not.exist();
+
+            request.url = '/?kill=true';
+
+            server.inject(request, function (response) {
+
+                Code.expect(response.statusCode).to.equal(200);
+                stub.pg.connect = realConnect;
+            });
         });
+    });
 
-        request.url = '/?kill=true';
 
-        server.inject(request, function (response) {
+    lab.test('it successfully uses native bindings without error', function (done) {
 
-            Code.expect(response.statusCode).to.equal(200);
-            stub.pg.connect = realConnect;
+        var pluginWithConfig = {
+            register: Plugin,
+            options: {
+                native: true
+            }
+        };
+
+        server.register(pluginWithConfig, function (err) {
+
+            Code.expect(err).to.not.exist();
+
+            server.inject(request, function (response) {
+
+                Code.expect(response.statusCode).to.equal(200);
+                done();
+            });
         });
     });
 });

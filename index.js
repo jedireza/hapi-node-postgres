@@ -1,9 +1,10 @@
 var Hoek = require('hoek');
-var Pg = require('pg');
+var Pg;
 
 
 var DEFAULTS = {
     connectionString: undefined,
+    native: false,
     attach: 'onPreHandler',
     detach: 'tail'
 };
@@ -12,6 +13,13 @@ var DEFAULTS = {
 exports.register = function (server, options, next) {
 
     var config = Hoek.applyToDefaults(DEFAULTS, options);
+
+    if (config.native) {
+        Pg = require('pg').native;
+    }
+    else {
+        Pg = require('pg');
+    }
 
     server.ext(config.attach, function (request, reply) {
 
