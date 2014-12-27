@@ -52,7 +52,7 @@ lab.experiment('Postgres Plugin', function () {
     });
 
 
-    lab.test('it returns an error when the connection fails in the pre handler extension point', function (done) {
+    lab.test('it returns an error when the connection fails in the extension point', function (done) {
 
         var realConnect = stub.pg.connect;
         stub.pg.connect = function (connection, callback) {
@@ -75,7 +75,7 @@ lab.experiment('Postgres Plugin', function () {
     });
 
 
-    lab.test('it successfully returns when the connection succeeds in the pre handler extension point', function (done) {
+    lab.test('it successfully returns when the connection succeeds in extension point', function (done) {
 
         var realConnect = stub.pg.connect;
         stub.pg.connect = function (connection, callback) {
@@ -133,14 +133,6 @@ lab.experiment('Postgres Plugin', function () {
 
     lab.test('it successfully uses native bindings without error', function (done) {
 
-        var realConnect = stub.pg.connect;
-        stub.pg.connect = function (connection, callback) {
-
-            var returnClient = function () {};
-
-            callback(null, {}, returnClient);
-        };
-
         var pluginWithConfig = {
             register: Plugin,
             options: {
@@ -155,8 +147,6 @@ lab.experiment('Postgres Plugin', function () {
             server.inject(request, function (response) {
 
                 Code.expect(response.statusCode).to.equal(200);
-                stub.pg.connect = realConnect;
-
                 done();
             });
         });
