@@ -1,5 +1,5 @@
 var Hoek = require('hoek');
-var Pg;
+var Pg = require('pg');
 
 
 var DEFAULTS = {
@@ -16,9 +16,6 @@ exports.register = function (server, options, next) {
 
     if (config.native) {
         Pg = require('pg').native;
-    }
-    else {
-        Pg = require('pg');
     }
 
     server.ext(config.attach, function (request, reply) {
