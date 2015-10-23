@@ -21,10 +21,10 @@ lab.beforeEach(function (done) {
     server.route({
         method: 'GET',
         path: '/',
-        handler: function (request, reply) {
+        handler: function (req, reply) {
 
-            if (request.query.kill) {
-                request.pg.kill = true;
+            if (req.query.kill) {
+                req.pg.kill = true;
             }
 
             reply('hapi-node-postgres, at your service');
@@ -136,6 +136,7 @@ lab.experiment('Postgres Plugin', function () {
         var pluginWithConfig = {
             register: Plugin,
             options: {
+                connectionString: 'postgres://postgres:mysecretpassword@localhost/hapi_node_postgres',
                 native: true
             }
         };
