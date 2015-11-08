@@ -36,7 +36,7 @@ reused. This is usually done when an error is detected during a query.
 #### Register the plugin manually.
 
 ```js
-var plugin = {
+const plugin = {
     register: require('hapi-node-postgres'),
     options: {
         connectionString: 'postgres://username:password@localhost/database',
@@ -44,7 +44,7 @@ var plugin = {
     }
 };
 
-server.register(plugin, function (err) {
+server.register(plugin, (err) => {
 
     if (err) {
         console.error('Failed loading "hapi-node-postgres" plugin');

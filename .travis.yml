@@ -1,9 +1,8 @@
 sudo: false
 language: node_js
 node_js:
-  - "0.10"
-  - "0.12"
   - "4"
+  - "5"
 before_script:
   - psql -c 'CREATE DATABASE hapi_node_postgres;' -U postgres
 env:
