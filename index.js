@@ -1,8 +1,10 @@
-var Hoek = require('hoek');
-var Pg = require('pg');
+'use strict';
+
+const Hoek = require('hoek');
+let Pg = require('pg');
 
 
-var DEFAULTS = {
+const DEFAULTS = {
     connectionString: undefined,
     native: false,
     attach: 'onPreHandler',
@@ -12,15 +14,15 @@ var DEFAULTS = {
 
 exports.register = function (server, options, next) {
 
-    var config = Hoek.applyToDefaults(DEFAULTS, options);
+    const config = Hoek.applyToDefaults(DEFAULTS, options);
 
     if (config.native) {
         Pg = require('pg').native;
     }
 
-    server.ext(config.attach, function (request, reply) {
+    server.ext(config.attach, (request, reply) => {
 
-        Pg.connect(config.connectionString, function (err, client, done) {
+        Pg.connect(config.connectionString, (err, client, done) => {
 
             if (err) {
                 reply(err);
@@ -38,7 +40,7 @@ exports.register = function (server, options, next) {
     });
 
 
-    server.on(config.detach, function (request, err) {
+    server.on(config.detach, (request, err) => {
 
         if (request.pg) {
             request.pg.done(request.pg.kill);

@@ -1,20 +1,23 @@
-var Lab = require('lab');
-var Code = require('code');
-var Hapi = require('hapi');
-var Proxyquire = require('proxyquire');
+'use strict';
+
+const Lab = require('lab');
+const Code = require('code');
+const Hapi = require('hapi');
+const Proxyquire = require('proxyquire');
 
 
-var stub = {
+const stub = {
     pg: {}
 };
-var Plugin = Proxyquire('../', {
+const Plugin = Proxyquire('../', {
     'pg': stub.pg
 });
-var lab = exports.lab = Lab.script();
-var request, server;
+const lab = exports.lab = Lab.script();
+let request;
+let server;
 
 
-lab.beforeEach(function (done) {
+lab.beforeEach((done) => {
 
     server = new Hapi.Server();
     server.connection({ port: 0 });
@@ -40,11 +43,11 @@ lab.beforeEach(function (done) {
 });
 
 
-lab.experiment('Postgres Plugin', function () {
+lab.experiment('Postgres Plugin', () => {
 
-    lab.test('it registers the plugin', function (done) {
+    lab.test('it registers the plugin', (done) => {
 
-        server.register(Plugin, function (err) {
+        server.register(Plugin, (err) => {
 
             Code.expect(err).to.not.exist();
             done();
@@ -52,19 +55,19 @@ lab.experiment('Postgres Plugin', function () {
     });
 
 
-    lab.test('it returns an error when the connection fails in the extension point', function (done) {
+    lab.test('it returns an error when the connection fails in the extension point', (done) => {
 
-        var realConnect = stub.pg.connect;
+        const realConnect = stub.pg.connect;
         stub.pg.connect = function (connection, callback) {
 
             callback(Error('connect failed'));
         };
 
-        server.register(Plugin, function (err) {
+        server.register(Plugin, (err) => {
 
             Code.expect(err).to.not.exist();
 
-            server.inject(request, function (response) {
+            server.inject(request, (response) => {
 
                 Code.expect(response.statusCode).to.equal(500);
                 stub.pg.connect = realConnect;
@@ -75,21 +78,21 @@ lab.experiment('Postgres Plugin', function () {
     });
 
 
-    lab.test('it successfully returns when the connection succeeds in extension point', function (done) {
+    lab.test('it successfully returns when the connection succeeds in extension point', (done) => {
 
-        var realConnect = stub.pg.connect;
+        const realConnect = stub.pg.connect;
         stub.pg.connect = function (connection, callback) {
 
-            var returnClient = function () {};
+            const returnClient = () => {};
 
             callback(null, {}, returnClient);
         };
 
-        server.register(Plugin, function (err) {
+        server.register(Plugin, (err) => {
 
             Code.expect(err).to.not.exist();
 
-            server.inject(request, function (response) {
+            server.inject(request, (response) => {
 
                 Code.expect(response.statusCode).to.equal(200);
                 stub.pg.connect = realConnect;
@@ -100,12 +103,12 @@ lab.experiment('Postgres Plugin', function () {
     });
 
 
-    lab.test('it successfully cleans up during the server tail event', function (done) {
+    lab.test('it successfully cleans up during the server tail event', (done) => {
 
-        var realConnect = stub.pg.connect;
+        const realConnect = stub.pg.connect;
         stub.pg.connect = function (connection, callback) {
 
-            var returnClient = function (killSwitch) {
+            const returnClient = function (killSwitch) {
 
                 Code.expect(killSwitch).to.equal(true);
                 stub.pg.connect = realConnect;
@@ -116,13 +119,13 @@ lab.experiment('Postgres Plugin', function () {
             callback(null, {}, returnClient);
         };
 
-        server.register(Plugin, function (err) {
+        server.register(Plugin, (err) => {
 
             Code.expect(err).to.not.exist();
 
             request.url = '/?kill=true';
 
-            server.inject(request, function (response) {
+            server.inject(request, (response) => {
 
                 Code.expect(response.statusCode).to.equal(200);
                 stub.pg.connect = realConnect;
@@ -131,9 +134,9 @@ lab.experiment('Postgres Plugin', function () {
     });
 
 
-    lab.test('it successfully uses native bindings without error', function (done) {
+    lab.test('it successfully uses native bindings without error', (done) => {
 
-        var pluginWithConfig = {
+        const pluginWithConfig = {
             register: Plugin,
             options: {
                 connectionString: 'postgres://postgres:mysecretpassword@localhost/hapi_node_postgres',
@@ -141,11 +144,11 @@ lab.experiment('Postgres Plugin', function () {
             }
         };
 
-        server.register(pluginWithConfig, function (err) {
+        server.register(pluginWithConfig, (err) => {
 
             Code.expect(err).to.not.exist();
 
-            server.inject(request, function (response) {
+            server.inject(request, (response) => {
 
                 Code.expect(response.statusCode).to.equal(200);
                 done();
