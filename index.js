@@ -30,8 +30,8 @@ exports.register = function (server, options, next) {
             }
 
             request.pg = {
-                client: client,
-                done: done,
+                client,
+                done,
                 kill: false
             };
 
