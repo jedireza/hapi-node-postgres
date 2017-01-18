@@ -1,6 +1,6 @@
 {
   "name": "hapi-node-postgres",
-  "version": "4.0.1",
+  "version": "4.1.0",
   "description": "Wrap requests with a pg connection.",
   "main": "index.js",
   "scripts": {
