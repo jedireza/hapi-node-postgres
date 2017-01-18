@@ -24,6 +24,8 @@ $ npm install hapi-node-postgres
 
 ## Usage
 
+### In request handlers
+
 In your request handlers you'll have access to `request.pg.client` which you
 can use to make DB requests. We even clean up the connection for you after the
 request is complete.
@@ -32,6 +34,53 @@ During your request handler you can set `request.pg.kill` to `true`, and we'll
 remove the connection from the pool instead of simply returning it to be
 reused. This is usually done when an error is detected during a query.
 
+```js
+server.route({
+    method: 'GET',
+    path: '/',
+    handler: function (req, reply) {
+
+        const cmd = 'SELECT * FROM stats;';
+
+        req.pg.client.query(cmd, (err, result) => {
+
+            if (err) {
+                request.pg.kill = true;
+
+                return reply(err);
+            }
+
+            reply('Number of rows: ', result.rows.length);
+        });
+    }
+});
+```
+
+### Outside of request handlers
+
+Outside of request handlers you can get access to the Postgres `connect`
+method. We expose it from the plugin already bound to the connection string.
+
+After plugin registration is complete you'll have access through the
+[`server.plugins` api](https://hapijs.com/api#serverplugins).
+
+```js
+const hpg = server.plugins['hapi-node-postgres'];
+
+hpg.connect((err, client, done) => {
+
+      if (err) {
+          // handle error case
+      }
+
+      // make queries with client
+
+      // call done to return client to the connection pool
+  });
+```
+
+
+## Plugin registration
 
 #### Register the plugin manually.
 
