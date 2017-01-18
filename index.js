@@ -20,6 +20,8 @@ exports.register = function (server, options, next) {
         Pg = require('pg').native;
     }
 
+    server.expose('connect', Pg.connect.bind(Pg, config.connectionString));
+
     server.ext(config.attach, (request, reply) => {
 
         Pg.connect(config.connectionString, (err, client, done) => {
