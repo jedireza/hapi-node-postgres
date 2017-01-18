@@ -37,6 +37,7 @@
     "pg": "6.x.x"
   },
   "dependencies": {
-    "hoek": "4.x.x"
+    "hoek": "4.x.x",
+    "joi": "^10.2.0"
   }
 }
