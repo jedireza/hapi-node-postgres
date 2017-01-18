@@ -3,9 +3,9 @@
 Wrap requests with a Postgres connection.
 
 [![Build Status](https://travis-ci.org/jedireza/hapi-node-postgres.svg?branch=master)](https://travis-ci.org/jedireza/hapi-node-postgres)
-[![Dependency Status](https://david-dm.org/jedireza/hapi-node-postgres.svg?style=flat)](https://david-dm.org/jedireza/hapi-node-postgres)
-[![devDependency Status](https://david-dm.org/jedireza/hapi-node-postgres/dev-status.svg?style=flat)](https://david-dm.org/jedireza/hapi-node-postgres#info=devDependencies)
-[![peerDependency Status](https://david-dm.org/jedireza/hapi-node-postgres/peer-status.svg?style=flat)](https://david-dm.org/jedireza/hapi-node-postgres#info=peerDependencies)
+[![Dependency Status](https://david-dm.org/jedireza/hapi-node-postgres/status.svg)](https://david-dm.org/jedireza/hapi-node-postgres)
+[![devDependency Status](https://david-dm.org/jedireza/hapi-node-postgres/dev-status.svg)](https://david-dm.org/jedireza/hapi-node-postgres?type=dev)
+[![peerDependency Status](https://david-dm.org/jedireza/hapi-node-postgres/peer-status.svg)](https://david-dm.org/jedireza/hapi-node-postgres?type=peer)
 
 We use the [`pg`](https://github.com/brianc/node-postgres) (`node-postgres`)
 module and take advantage of its connection pooling feature.
