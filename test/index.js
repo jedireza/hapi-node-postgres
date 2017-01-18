@@ -47,10 +47,53 @@ lab.experiment('Postgres Plugin', () => {
 
     lab.test('it registers the plugin', (done) => {
 
+        const realConnect = stub.pg.connect;
+
+        stub.pg.connect = function (connection, callback) {
+
+            stub.pg.connect = realConnect;
+
+            callback(null, {}, () => {});
+        };
+
         server.register(Plugin, (err) => {
 
             Code.expect(err).to.not.exist();
+
             done();
+        });
+    });
+
+
+    lab.test('it exposes a connect function', (done) => {
+
+        const realConnect = stub.pg.connect;
+
+        stub.pg.connect = function (connection, callback) {
+
+            stub.pg.connect = realConnect;
+
+            callback(null, {}, () => {
+
+                done();
+            });
+        };
+
+        server.register(Plugin, (err) => {
+
+            const plugin = server.plugins['hapi-node-postgres'];
+
+            Code.expect(err).to.not.exist();
+            Code.expect(plugin.connect).to.be.a.function();
+
+            plugin.connect((err, client, clientDone) => {
+
+                Code.expect(err).to.not.exist();
+                Code.expect(client).to.be.an.object();
+                Code.expect(done).to.be.a.function();
+
+                clientDone();
+            });
         });
     });
 
@@ -58,7 +101,10 @@ lab.experiment('Postgres Plugin', () => {
     lab.test('it returns an error when the connection fails in the extension point', (done) => {
 
         const realConnect = stub.pg.connect;
+
         stub.pg.connect = function (connection, callback) {
+
+            stub.pg.connect = realConnect;
 
             callback(Error('connect failed'));
         };
@@ -70,7 +116,6 @@ lab.experiment('Postgres Plugin', () => {
             server.inject(request, (response) => {
 
                 Code.expect(response.statusCode).to.equal(500);
-                stub.pg.connect = realConnect;
 
                 done();
             });
@@ -81,9 +126,12 @@ lab.experiment('Postgres Plugin', () => {
     lab.test('it successfully returns when the connection succeeds in extension point', (done) => {
 
         const realConnect = stub.pg.connect;
+
         stub.pg.connect = function (connection, callback) {
 
             const returnClient = () => {};
+
+            stub.pg.connect = realConnect;
 
             callback(null, {}, returnClient);
         };
@@ -95,7 +143,6 @@ lab.experiment('Postgres Plugin', () => {
             server.inject(request, (response) => {
 
                 Code.expect(response.statusCode).to.equal(200);
-                stub.pg.connect = realConnect;
 
                 done();
             });
@@ -106,15 +153,17 @@ lab.experiment('Postgres Plugin', () => {
     lab.test('it successfully cleans up during the server tail event', (done) => {
 
         const realConnect = stub.pg.connect;
+
         stub.pg.connect = function (connection, callback) {
 
             const returnClient = function (killSwitch) {
 
                 Code.expect(killSwitch).to.equal(true);
-                stub.pg.connect = realConnect;
 
                 done();
             };
+
+            stub.pg.connect = realConnect;
 
             callback(null, {}, returnClient);
         };
