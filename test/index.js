@@ -47,13 +47,32 @@ lab.experiment('Postgres Plugin', () => {
 
     lab.test('it registers the plugin', (done) => {
 
-        server.register(Plugin, (err) => {
+        const pluginWithConfig = {
+            register: Plugin,
+            options: {
+                connectionString: 'postgres://postgres:mysecretpassword@localhost/hapi_node_postgres',
+                native: true
+            }
+        };
+        server.register(pluginWithConfig, (err) => {
 
             Code.expect(err).to.not.exist();
             done();
         });
     });
 
+    lab.test('it return an error when options not contains `connectionString`', (done) => {
+
+        const pluginWithConfig = {
+            register: Plugin,
+            options: {}
+        };
+        server.register(pluginWithConfig, (err) => {
+
+            Code.expect(err).to.match(/ValidationError: child "connectionString" fails/);
+            done();
+        });
+    });
 
     lab.test('it returns an error when the connection fails in the extension point', (done) => {
 
@@ -62,8 +81,13 @@ lab.experiment('Postgres Plugin', () => {
 
             callback(Error('connect failed'));
         };
-
-        server.register(Plugin, (err) => {
+        const pluginWithConfig = {
+            register: Plugin,
+            options: {
+                connectionString: 'postgres://postgres:mysecretpassword@localhost/hapi_node_postgres'
+            }
+        };
+        server.register(pluginWithConfig, (err) => {
 
             Code.expect(err).to.not.exist();
 
@@ -87,8 +111,13 @@ lab.experiment('Postgres Plugin', () => {
 
             callback(null, {}, returnClient);
         };
-
-        server.register(Plugin, (err) => {
+        const pluginWithConfig = {
+            register: Plugin,
+            options: {
+                connectionString: 'postgres://postgres:mysecretpassword@localhost/hapi_node_postgres'
+            }
+        };
+        server.register(pluginWithConfig, (err) => {
 
             Code.expect(err).to.not.exist();
 
@@ -118,8 +147,13 @@ lab.experiment('Postgres Plugin', () => {
 
             callback(null, {}, returnClient);
         };
-
-        server.register(Plugin, (err) => {
+        const pluginWithConfig = {
+            register: Plugin,
+            options: {
+                connectionString: 'postgres://postgres:mysecretpassword@localhost/hapi_node_postgres'
+            }
+        };
+        server.register(pluginWithConfig, (err) => {
 
             Code.expect(err).to.not.exist();
 
@@ -134,7 +168,7 @@ lab.experiment('Postgres Plugin', () => {
     });
 
 
-    lab.test('it successfully uses native bindings without error', (done) => {
+    lab.test.only('it successfully uses native bindings without error', (done) => {
 
         const pluginWithConfig = {
             register: Plugin,
