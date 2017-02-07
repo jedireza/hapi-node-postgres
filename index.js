@@ -7,7 +7,7 @@ let Pg = require('pg');
 const DEFAULTS = {
     connectionString: undefined,
     native: false,
-    attach: 'onPreHandler',
+    attach: 'onPreAuth',
     detach: 'tail'
 };
 
